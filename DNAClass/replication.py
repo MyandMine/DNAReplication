@@ -1,3 +1,34 @@
+# Input:  Two strings p and q
+# Output: An integer value representing the Hamming Distance between p and q.
+def HammingDistance(p, q):
+    # your code here
+    
+# Input:  A DNA string Genome
+# Output: A list containing all integers i minimizing Skew(Prefix_i(Text)) over all values of i (from 0 to |Genome|)
+def MinimumSkew(Genome):
+    positions = [] # output variable
+    # your code here
+    skew = Skew(Genome)
+    count = min(skew.values())
+    for i in range(len(skew)):
+        if count == skew[i]:
+            positions.append(i)
+    return positions
+
+# Input:  A String Genome
+# Output: Skew(Genome)
+def Skew(Genome):
+    skew = {} #initializing the dictionary
+    # your code here
+    skew[0] = 0
+    for i in range(len(Genome)):
+        skew[i+1] = skew[i]
+        if Genome[i] == 'G':
+            skew[i+1] = skew[i]+1
+        if Genome[i] == 'C':
+            skew[i+1] = skew[i]-1
+    return skew
+
 # Input:  A string Text and an integer k
 # Output: A list containing all most frequent k-mers in Text
 def FrequentWords(Text, k):
@@ -56,4 +87,4 @@ def PatternMatching(Pattern, Genome):
 ### DO NOT MODIFY THE CODE BELOW THIS LINE ###
 import sys
 #lines = sys.stdin.read().splitlines()
-print(' '.join(PatternMatching("ATAT","GATATATGCATATACTT")))
+print(MinimumSkew("TAAAGACTGCCGAGAGGCCAACACGAGTGCTAGAACGAGGGGCGTAAACGCGGGTCCGAT"))
