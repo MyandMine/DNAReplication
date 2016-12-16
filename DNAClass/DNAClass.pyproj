@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>695d2c35-7885-408e-9af4-0e1b1eace923</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>motifs.py</StartupFile>
+    <StartupFile>testCode.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -30,6 +30,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="replication.py" />
+    <Compile Include="testCode.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

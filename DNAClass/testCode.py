@@ -1,3 +1,4 @@
+# Copy your GreedyMotifSearch function (along with all required subroutines) from Motifs.py below this line
 # Input:  A list of kmers Dna, and integers k and t (where t is the number of kmers in Dna)
 # Output: GreedyMotifSearch(Dna, k, t)
 def GreedyMotifSearch(Dna, k, t):
@@ -15,7 +16,6 @@ def GreedyMotifSearch(Dna, k, t):
         if Score(Motifs) < Score(BestMotifs):
             BestMotifs = Motifs
     return BestMotifs
-
 # Input:  String Text, an integer k, and profile matrix Profile
 # Output: ProfileMostProbablePattern(Text, k, Profile)
 def ProfileMostProbablePattern(Text, k, Profile):
@@ -50,7 +50,6 @@ def Score(Motifs):
             if consensus[j] != Motifs[i][j]:
                 score = score + 1
     return score
-
 # Input:  A set of kmers Motifs
 # Output: A consensus string of Motifs.
 def Consensus(Motifs):
@@ -79,7 +78,6 @@ def Profile(Motifs):
         for j in "ACGT":
             profile[j][i] = profile[j][i] / t
     return profile
-
 # Input:  A set of kmers Motifs
 # Output: Count(Motifs)
 def Count(Motifs):
@@ -96,10 +94,15 @@ def Count(Motifs):
             symbol = Motifs[i][j]
             count[symbol][j] += 1
     return count
+# Copy the ten strings occurring in the hyperlinked DosR dataset below.
+Dna = ["GGCGTTCAGGCA", "AAGAATCAGTCA", "CAAGGAGTTCGC", "CACGTCAATCAC", "CAATAATATTCG"]
 
-Dna = ["GGCGTTCAGGCA",
-        "AAGAATCAGTCA",
-        "CAAGGAGTTCGC",
-        "CACGTCAATCAC",
-        "CAATAATATTCG"]
-print(GreedyMotifSearch(Dna, 3, 5))
+# set t equal to the number of strings in Dna and k equal to 15
+t = len(Dna)
+k = 3
+# Call GreedyMotifSearch(Dna, k, t) and store the output in a variable called Motifs
+Motifs = GreedyMotifSearch(Dna, k, t)
+# Print the Motifs variable
+print(Motifs)
+# Print Score(Motifs)
+print(Score(Motifs))
