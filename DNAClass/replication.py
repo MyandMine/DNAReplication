@@ -107,11 +107,8 @@ def PatternMatching(Pattern, Genome):
             positions.append(i)
     return positions
 
+
 ### DO NOT MODIFY THE CODE BELOW THIS LINE ###
 import sys
 #lines = sys.stdin.read().splitlines()
-print(FrequentWords("CGGAGGACTCTAGGTAACGCTTATCAGGTCCATAGGACATTCA",3))
-a=list(range(5))
-b=a
-a[2]=12
-print("sdfg")
+print(Score(["AACGTA","CCCGTT","CACCTT","GGATTA","TTCCGG"]))
