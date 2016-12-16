@@ -1,3 +1,67 @@
+# Input:  A list of strings Dna, and integers k and t
+# Output: RandomMotifs(Dna, k, t)
+# HINT:   You might not actually need to use t since t = len(Dna), but you may find it convenient
+def RandomMotifs(Dna, k, t):
+    # place your code here.
+    Profile(Dna)
+
+def Score2(Profile):
+    score = 0;
+    for i in range(len(Profile)):
+            score = score + Profile[i] * math.log2(Profile[i])
+    return score
+# Input:  A profile matrix Profile and a list of strings Dna
+# Output: Motifs(Profile, Dna)
+def Motifs(Profile, Dna):
+    # insert your code here
+    motifs = [];
+    for i in range(len(Dna)):
+        motifs.append(ProfileMostProbablePattern(Dna[i], len(Profile["A"]), Profile))
+    return motifs
+
+# Input:  A list of kmers Dna, and integers k and t (where t is the number of kmers in Dna)
+# Output: GreedyMotifSearch(Dna, k, t)
+def GreedyMotifSearchWithPseudocounts(Dna, k, t):
+    BestMotifs = [] # output variable
+    # your code here
+    for i in range(0, t):
+        BestMotifs.append(Dna[i][0:k])
+        n = len(Dna[0])
+    for i in range(n-k+1):
+        Motifs = []
+        Motifs.append(Dna[0][i:i+k])
+        for j in range(1, t):
+            P = ProfileWithPseudocounts(Motifs[0:j])
+            Motifs.append(ProfileMostProbablePattern(Dna[j], k, P))
+        if Score(Motifs) < Score(BestMotifs):
+            BestMotifs = Motifs
+    return BestMotifs
+
+# Input:  A set of kmers Motifs
+# Output: ProfileWithPseudocounts(Motifs)
+def ProfileWithPseudocounts(Motifs):
+    t = len(Motifs)
+    k = len(Motifs[0])
+    profile = {} # output variable
+    # your code here
+    profile = CountWithPseudocounts(Motifs)
+    for i in range(k):
+        for j in "ACGT":
+            profile[j][i] = profile[j][i] / (t + 4)
+    return profile
+
+# Input:  A set of kmers Motifs
+# Output: CountWithPseudocounts(Motifs)
+def CountWithPseudocounts(Motifs):
+    t = len(Motifs)
+    k = len(Motifs[0])
+    # insert your code here
+    count = Count(Motifs)
+    for i in "ACGT":
+        for j in range(len(count["A"])):
+            count[i][j] = count[i][j]+1
+    return count
+
 # Input:  A list of kmers Dna, and integers k and t (where t is the number of kmers in Dna)
 # Output: GreedyMotifSearch(Dna, k, t)
 def GreedyMotifSearch(Dna, k, t):
@@ -97,9 +161,12 @@ def Count(Motifs):
             count[symbol][j] += 1
     return count
 
-Dna = ["GGCGTTCAGGCA",
-        "AAGAATCAGTCA",
-        "CAAGGAGTTCGC",
-        "CACGTCAATCAC",
-        "CAATAATATTCG"]
-print(GreedyMotifSearch(Dna, 3, 5))
+import math
+
+Text = ["TTACCTTAAC","GATGTCTGTC","ACGGCGTTAG","CCCTAACGAG","CGTCAGAGGT"]
+A = [0.8, 0.0, 0.0, 0.2]
+C = [0.0, 0.6, 0.2, 0.0]
+G = [0.2, 0.2, 0.8, 0.0]
+T = [0.0, 0.2, 0.0, 0.8]
+Profile = {'A':A, 'C':C, 'G':G, 'T':T}
+print(Motifs(Profile,Text))
