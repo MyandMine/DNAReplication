@@ -3,7 +3,19 @@
 # HINT:   You might not actually need to use t since t = len(Dna), but you may find it convenient
 def RandomMotifs(Dna, k, t):
     # place your code here.
-    Profile(Dna)
+    BestMotifs = []
+    for i in range(0, t):
+        BestMotifs.append(Dna[i][0:k])
+        n = len(Dna[0])
+    for i in range(n-k+1):
+        Motifs = []
+        Motifs.append(Dna[0][i:i+k])
+        for j in range(1, t):
+            P = ProfileWithPseudocounts(Motifs[0:j])
+            Motifs.append(ProfileMostProbablePattern(Dna[j], k, P))
+        if Score(Motifs) < Score(BestMotifs):
+            BestMotifs = Motifs
+    return BestMotifs
 
 def Score2(Profile):
     score = 0;
@@ -168,5 +180,10 @@ A = [0.8, 0.0, 0.0, 0.2]
 C = [0.0, 0.6, 0.2, 0.0]
 G = [0.2, 0.2, 0.8, 0.0]
 T = [0.0, 0.2, 0.0, 0.8]
-Profile = {'A':A, 'C':C, 'G':G, 'T':T}
-print(Motifs(Profile,Text))
+#Profile = {'A':A, 'C':C, 'G':G, 'T':T}
+Dna = ["TTACCTTAAC",
+    "GATGTCTGTC",
+    "ACGGCGTTAG",
+    "CCCTAACGAG",
+    "CGTCAGAGGT"]
+print(GreedyMotifSearch(Dna,3,5))
