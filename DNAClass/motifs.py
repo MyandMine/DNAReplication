@@ -1,3 +1,26 @@
+# Input: A dictionary Probabilities, where keys are k-mers and values are the probabilities of these k-mers (which do not necessarily sum up to 1)
+# Output: A normalized dictionary where the probability of each k-mer was divided by the sum of all k-mers' probabilities
+def Normalize(Probabilities):
+    # your code here
+    count = 0
+    for i in Probabilities.keys():
+        count = count + Probabilities[i]
+    for i in Probabilities.keys():
+        Probabilities[i] = Probabilities[i]/count
+    return Probabilities
+# Input:  Positive integers k and t, followed by a list of strings Dna
+# Output: RandomizedMotifSearch(Dna, k, t)
+def RandomizedMotifSearch(Dna, k, t):
+    # insert your code here
+    M = RandomMotifs(Dna, k, t)
+    BestMotifs = M
+    while True:
+        Profile = ProfileWithPseudocounts(M)
+        M = Motifs(Profile, Dna)
+        if Score(M) < Score(BestMotifs):
+            BestMotifs = M
+        else:
+            return BestMotifs 
 # Input:  A list of strings Dna, and integers k and t
 # Output: RandomMotifs(Dna, k, t)
 # HINT:   You might not actually need to use t since t = len(Dna), but you may find it convenient
@@ -6,15 +29,16 @@ def RandomMotifs(Dna, k, t):
     BestMotifs = []
     for i in range(0, t):
         BestMotifs.append(Dna[i][0:k])
-        n = len(Dna[0])
-    for i in range(n-k+1):
-        Motifs = []
-        Motifs.append(Dna[0][i:i+k])
-        for j in range(1, t):
-            P = ProfileWithPseudocounts(Motifs[0:j])
-            Motifs.append(ProfileMostProbablePattern(Dna[j], k, P))
-        if Score(Motifs) < Score(BestMotifs):
-            BestMotifs = Motifs
+        DnaLen = len(Dna[0])
+    motifs = []
+    RandomStart = random.randint(0,DnaLen-k)
+    motifs.append(Dna[random.randint(0,t-1)][RandomStart:RandomStart+k])
+    for j in range(t):
+        Profile = ProfileWithPseudocounts(motifs[0:j+1])
+        motifs.append(ProfileMostProbablePattern(Dna[j], k, Profile))
+    motifs.remove(motifs[0])
+    if Score(motifs) < Score(BestMotifs):
+        BestMotifs = motifs
     return BestMotifs
 
 def Score2(Profile):
@@ -174,6 +198,7 @@ def Count(Motifs):
     return count
 
 import math
+import random
 
 Text = ["TTACCTTAAC","GATGTCTGTC","ACGGCGTTAG","CCCTAACGAG","CGTCAGAGGT"]
 A = [0.8, 0.0, 0.0, 0.2]
@@ -181,9 +206,9 @@ C = [0.0, 0.6, 0.2, 0.0]
 G = [0.2, 0.2, 0.8, 0.0]
 T = [0.0, 0.2, 0.0, 0.8]
 #Profile = {'A':A, 'C':C, 'G':G, 'T':T}
-Dna = ["TTACCTTAAC",
-    "GATGTCTGTC",
-    "ACGGCGTTAG",
-    "CCCTAACGAG",
-    "CGTCAGAGGT"]
-print(GreedyMotifSearch(Dna,3,5))
+Dna = ["CGCCCCTCTCGGGGGTGTTCAGTAAACGGCCA",
+    "GGGCGAGGTATGTGTAAGTGCCAAGGTGCCAG",
+    "TAGTACCGAGACCGAAAGAAGTATACAGGCGT",
+    "TAGATCAAGTTTCAGGTGCACGTCGGTGAACC",
+    "AATCCACCAGCTCCACGTGCAATGTTGGCCTA"]
+print(RandomizedMotifSearch(Dna,8,5))
