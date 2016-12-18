@@ -1,3 +1,37 @@
+# Input:  Integers k, t, and N, followed by a collection of strings Dna
+# Output: GibbsSampler(Dna, k, t, N)
+def GibbsSampler(Dna, k, t, N):
+    BestMotifs = [] # output variable
+    # your code here
+    Rn = random.randint(0,len(Dna[0])- k)
+    Motifs = []
+    profile = {"A":[],"G":[],"C":[],"T":[]}
+    for i in range(t):
+        Motifs.append(Dna[i][Rn:Rn + k])
+    BestMotifs = Motifs
+    for j in range(N):
+        i = random.randint(0,t-1)
+        m = []
+        for l in range(t):
+            if l != i:
+                m.append(Motifs[l])
+        if len(m) < 1:
+            print("sdaf")
+        profile = ProfileWithPseudocounts(m)
+        Motifs[i] = ProfileGeneratedString(Dna[i], profile,k)
+        if Score(Motifs) < Score(BestMotifs):
+            BestMotifs = Motifs
+    return BestMotifs
+# Input:  A string Text, a profile matrix Profile, and an integer k
+# Output: ProfileGeneratedString(Text, profile, k)
+def ProfileGeneratedString(Text, profile, k):
+    # your code here
+    n = len(Text)
+    probabilities = {} 
+    for i in range(0,n-k+1):
+        probabilities[Text[i:i+k]] = Pr(Text[i:i+k], profile)
+    probabilities = Normalize(probabilities)
+    return WeightedDie(probabilities)
 # Input: A dictionary Probabilities, where keys are k-mers and values are the probabilities of these k-mers (which do not necessarily sum up to 1)
 # Output: A normalized dictionary where the probability of each k-mer was divided by the sum of all k-mers' probabilities
 def Normalize(Probabilities):
@@ -8,6 +42,18 @@ def Normalize(Probabilities):
     for i in Probabilities.keys():
         Probabilities[i] = Probabilities[i]/count
     return Probabilities
+# Input:  A dictionary Probabilities whose keys are k-mers and whose values are the probabilities of these kmers
+# Output: A randomly chosen k-mer with respect to the values in Probabilities
+def WeightedDie(Probabilities):
+    kmer = '' # output variable
+    # your code here
+    Probabilities = Normalize(Probabilities)
+    Rnum = random.uniform(0,1)
+    for i in Probabilities.keys():
+        Rnum = Rnum - Probabilities[i]
+        if Rnum < 0:
+            kmer = i
+            return kmer
 # Input:  Positive integers k and t, followed by a list of strings Dna
 # Output: RandomizedMotifSearch(Dna, k, t)
 def RandomizedMotifSearch(Dna, k, t):
@@ -200,15 +246,11 @@ def Count(Motifs):
 import math
 import random
 
-Text = ["TTACCTTAAC","GATGTCTGTC","ACGGCGTTAG","CCCTAACGAG","CGTCAGAGGT"]
-A = [0.8, 0.0, 0.0, 0.2]
-C = [0.0, 0.6, 0.2, 0.0]
-G = [0.2, 0.2, 0.8, 0.0]
-T = [0.0, 0.2, 0.0, 0.8]
-#Profile = {'A':A, 'C':C, 'G':G, 'T':T}
 Dna = ["CGCCCCTCTCGGGGGTGTTCAGTAAACGGCCA",
     "GGGCGAGGTATGTGTAAGTGCCAAGGTGCCAG",
     "TAGTACCGAGACCGAAAGAAGTATACAGGCGT",
     "TAGATCAAGTTTCAGGTGCACGTCGGTGAACC",
     "AATCCACCAGCTCCACGTGCAATGTTGGCCTA"]
-print(RandomizedMotifSearch(Dna,8,5))
+#profile = {'A': [0.5, 0.1], 'C': [0.3, 0.2], 'G': [0.2, 0.4], 'T': [0.0, 0.3]}
+X = GibbsSampler(Dna,8,5,100)
+print(X)
