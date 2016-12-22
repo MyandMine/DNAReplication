@@ -58,7 +58,8 @@ def WeightedDie(Probabilities):
 # Output: RandomizedMotifSearch(Dna, k, t)
 def RandomizedMotifSearch(Dna, k, t):
     # insert your code here
-    M = RandomMotifs(Dna, k, t)
+    #M = RandomMotifs(Dna, k, t)
+    M = ["CCA","CCT","CTT","TTG"]
     BestMotifs = M
     while True:
         Profile = ProfileWithPseudocounts(M)
@@ -246,11 +247,10 @@ def Count(Motifs):
 import math
 import random
 
-Dna = ["CGCCCCTCTCGGGGGTGTTCAGTAAACGGCCA",
-    "GGGCGAGGTATGTGTAAGTGCCAAGGTGCCAG",
-    "TAGTACCGAGACCGAAAGAAGTATACAGGCGT",
-    "TAGATCAAGTTTCAGGTGCACGTCGGTGAACC",
-    "AATCCACCAGCTCCACGTGCAATGTTGGCCTA"]
+Dna = ["AAGCCAAA",
+    "AATCCTGG",
+    "GCTACTTG",
+    "ATGTTTTG"]
 #profile = {'A': [0.5, 0.1], 'C': [0.3, 0.2], 'G': [0.2, 0.4], 'T': [0.0, 0.3]}
-X = GibbsSampler(Dna,8,5,100)
+X = RandomizedMotifSearch (Dna, 3, 4)
 print(X)

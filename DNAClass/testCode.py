@@ -109,5 +109,6 @@ Dna = ["CGCCCCTCTCGGGGGTGTTCAGTAAACGGCCA",
     "TAGATCAAGTTTCAGGTGCACGTCGGTGAACC",
     "AATCCACCAGCTCCACGTGCAATGTTGGCCTA"]
 #profile = {'A': [0.5, 0.1], 'C': [0.3, 0.2], 'G': [0.2, 0.4], 'T': [0.0, 0.3]}
-X = GibbsSampler(Dna,8,5,100)
+Probabilities = {"A":0.22,"C":0.54,"G":0.36,"T":0.3}
+X = Normalize(Probabilities)
 print(X)

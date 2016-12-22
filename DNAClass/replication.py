@@ -1,3 +1,20 @@
+# Input:  A DNA string Pattern
+# Output: The reverse complement of Pattern
+def ReverseComplement(Pattern):
+    revComp = '' # output variable
+    # your code here
+    for i in Pattern:
+        revComp = complement(i) + revComp
+    return revComp
+# HINT:   Filling in the following function is optional, but it may come in handy when solving ReverseComplement
+# Input:  A character Nucleotide
+# Output: The complement of Nucleotide
+def complement(Nucleotide):
+    comp = '' # output variable
+    # your code here
+    dic = {"A":"T","T":"A","G":"C","C":"G"}
+    comp = dic[Nucleotide]
+    return comp
 # Input:  Strings Pattern and Text, and an integer d
 # Output: The number of times Pattern appears in Text with at most d mismatches
 def ApproximatePatternCount(Pattern, Text, d):
